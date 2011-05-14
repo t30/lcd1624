@@ -17,7 +17,6 @@
 // Data wire is plugged into port 2 on the Arduino
 #define ONE_WIRE_BUS 9
 
-
 char *msgLine1;
 char *msgLine2;
 char *msgLine3[2];
