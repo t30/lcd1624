@@ -1,3 +1,4 @@
+//Scroling branch
 #include <Messenger.h>
 #include <Metro.h>
 //#include <stdio.h>
@@ -17,9 +18,10 @@
 // Data wire is plugged into port 2 on the Arduino
 #define ONE_WIRE_BUS 9
 
-char *msgLine1;
-char *msgLine2;
-char *msgLine3[2];
+//char *msgLine1;
+//char *msgLine2;
+char *msgLine[2] = { 
+  strdup("Boot"),strdup(" up ")};
 //char msg;
 
 //msgLine[0]= msgSet[0];
@@ -28,14 +30,22 @@ char *msgLine3[2];
 #define MESS_LEN 40 //lunghezza massima dei messaggi
 #define MESS_NR  4  //nr massimo di messaggi
 char msgSet[MESS_NR][MESS_LEN] = {
-  "zero", "uno", "due", "tre"};
+  "uno", "2", "3", "4"};
 //char *msgLine1;
-unsigned int FreqLine1 = 1;
-unsigned int FreqCount1 = 0;
-unsigned int ScrolLine1;
-unsigned int FreqLine2 = 3;
-unsigned int FreqCount2 = 0;
-unsigned int ScrolLine2;
+//variabili legate ai messaggi:
+//    - var[0]  ->  riga superiore
+//    - var[1]  ->  riga inferiore
+//ogni quanti cicli del timer esegue lo scrolling
+//la frequenza dipende dalla var::period
+unsigned int FreqLine[2] = {
+  1,2};
+//contatore del numero di cicli eseguiti dal timer
+unsigned int FreqCount[2] = {
+  0,0};
+//lunghezza dei messaggi in scroling ora (in pixel - caratteri*6 (5+spazio))
+unsigned int ScrolLine[2] = {
+  0,0};
+//array in cui viene salvato il nemero del prossimo messaggio in solling
 unsigned int MsgRotate[2] = {
   0,0};
 
@@ -87,14 +97,14 @@ void setup() {
   // free(msgLine1);
   // msgLine1 = msgSet[0];
   // updateLine(0, msgSet[0]);
-  updateLine(0, msgSet[0]);  
-  updateLine(1, msgSet[1]);
+  //  updateLine(0, msgSet[0]);  
+  //  updateLine(1, msgSet[1]);
   prntDBG(9,"==Print msgSet: ");
   prntDBG(9,msgSet[0]);
   prntDBG(9,msgSet[1]);
   prntDBG(9,"==Print msgLine 1 e 2: ");
-  prntDBG(9,msgLine1);
-  prntDBG(9,msgLine2);
+  prntDBG(9,msgLine[0]);
+  prntDBG(9,msgLine[1]);
 
   // Fetch bounds (dynamically work out how large this display is) MatrixDisplay
   X_MAX = disp.getDisplayCount() * disp.getDisplayWidth();
@@ -102,10 +112,11 @@ void setup() {
 
   // Prepare MatrixDisplay
   disp.setMaster(0,16);
-  //    disp.setSlave(1,15);
+  //disp.setSlave(1,15);
   //    disp.setSlave(2,17);
   //    disp.setSlave(3,14);
 
+  drawString(0,0,"Testing");
   // Start up the library for sensor temperature
   sensors.begin();
 
@@ -133,22 +144,22 @@ void loop() {
   {
     Period.reset();
 
-    if(msgLine1 && FreqCount1 < FreqLine1){
+    if(msgLine[0] && FreqCount[0] < FreqLine[0]){
       //ScrolLine(1);
-      FreqCount1++;
+      FreqCount[0]++;
     } 
     else {
-      FreqCount1 = 0;
-      ScrolLine(0);
+      FreqCount[0] = 0;
+      ScrollingLine(0);
     }
 
-    if(msgLine2 && FreqCount2 < FreqLine2){
+    if(msgLine[1] && FreqCount[1] < FreqLine[1]){
       //ScrolLine(2);
-      FreqCount2++;
+      FreqCount[1]++;
     } 
     else {
-      FreqCount2 = 0;
-      ScrolLine(1);
+      FreqCount[1] = 0;
+      ScrollingLine(1);
     }
 
     disp.syncDisplays(); 
@@ -163,14 +174,18 @@ void loop() {
   if (Update.check() == 1)
   {
     Update.reset();
-//    updateLine(0, msgSet[MsgRotate[0]]);  
-//    updateLine(1, msgSet[MsgRotate[1]]);
+    //    updateLine(0, msgSet[MsgRotate[0]]);  
+    //    updateLine(1, msgSet[MsgRotate[1]]);
     //    updateMsg(0);
     //    updateMsg(1);
   }
 
 
 }
+
+
+
+
 
 
 

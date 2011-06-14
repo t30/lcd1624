@@ -17,7 +17,7 @@ void messageReady() {
         prntDBG(0,"Set Brightness: ");
         unsigned int brght = message.readInt();
         prntDBG(0,brght);
-        disp.setBrightness(0, map(brght,0,65534,0,16));
+        disp.setBrightness(0, brght);
         break;
       }
 
@@ -31,13 +31,13 @@ void messageReady() {
 
         if(lineNr == 1 ){
           prntDBG(0,"Change freq to: "); 
-          FreqLine1 = message.readInt();
-          prntDBG(0,FreqLine1); 
+          FreqLine[0] = message.readInt();
+          prntDBG(0,FreqLine[0]); 
         } 
         else if(lineNr == 2 ){
           prntDBG(0,"Change freq to: "); 
-          FreqLine2 = message.readInt();
-          prntDBG(0,FreqLine2); 
+          FreqLine[1] = message.readInt();
+          prntDBG(0,FreqLine[1]); 
         }
 
         break;
@@ -120,12 +120,37 @@ void messageReady() {
         break;
       }
 
+      //shifta il contenuto delbuffer del display
+    case 'R':
+      {
+        prntDBG(8,"ShiftBuffer: "); 
+        char dir = message.readChar();
+
+        if(dir == 'L' ){
+          prntDBG(8,"shifting LEFT: ");
+          disp.shiftLeft();
+        } 
+        else if(dir == 'R' ){
+          prntDBG(8,"shifting RIGHT: "); 
+          disp.shiftRight();
+        }
+        else if(dir == '6' ){
+          prntDBG(8,"shifting LEFT 6 pos: "); 
+          for(int i = 0; i<6;i++){
+            disp.shiftLeft();
+          }
+        }
+
+
+        break;
+      }
+
     case 'S':
       {
         prntDBG(5,"StrLenmsgLine1: ");
-        prntDBG(5,ScrolLine1);
+        prntDBG(5,ScrolLine[0]);
         prntDBG(5,"StrLenmsgLine2: ");
-        prntDBG(5,ScrolLine2);
+        prntDBG(5,ScrolLine[1]);
         break;
       }
 
@@ -158,7 +183,10 @@ void messageReady() {
         //        Serial.println(availableMemory());
         break;
       }
-
+    default:
+      {
+        prntDBG(0,"Unknown Command");
+      }
     }
   }
 }
@@ -207,38 +235,39 @@ void messageReady() {
 //  }
 //}
 
-void updateLine(unsigned int lineNr, char *str){
+void updateLineOLD(unsigned int lineNr, char *str){
   //disp.clear();
-  switch(lineNr){
-  case 0:
-    {
       //situation via debug serial print out
       prntDBG(9,"strlen(str)*6 ");
       prntDBG(9,strlen(str)*6);
       //put the message len (in pixel) in a varible used by scoling line function
-      ScrolLine1 = strlen(str)*6;
+      ScrolLine[lineNr] = strlen(str)*6;
       prntDBG(8,"updateLine1 ");
       //free(msgLine1);
       //for (unsigned int n=0; n<=strlen(str); n++){
-        //arrange the pointer for this line
-      msgLine1 = str;
-      break;
-      //}
-    }
-  case 1:
-    {
+      //arrange the pointer for this line
+      msgLine[lineNr] = str;
+
+}
+
+void updateLine(unsigned int lineNr, char *str){
+  //disp.clear();
+      //situation via debug serial print out
       prntDBG(9,"strlen(str)*6 ");
       prntDBG(9,strlen(str)*6);
-      ScrolLine2 = strlen(str)*6;
-      prntDBG(8,"updateLine2 ");
-      //free(msgLine2);
+      //put the message len (in pixel) in a varible used by scoling line function
+      ScrolLine[lineNr] = strlen(str)*6;
+      prntDBG(8,"updateLine1 ");
+      free(msgLine[lineNr]);
+      msgLine[lineNr]= strdup(" ");
       //for (unsigned int n=0; n<=strlen(str); n++){
-      msgLine2 = str;
-      //}
-      break;
-    } 
-  }
+      //arrange the pointer for this line
+      msgLine[lineNr] = strcat(msgLine[lineNr],str);
+
 }
+
+
+
 
 
 

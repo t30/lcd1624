@@ -77,75 +77,85 @@ void WrStrLine2(uint8_t x, char* c) {
 //}
 
 /*! scoll a string on the MatrixDisplay on a specify line  */
-void ScrolLine(int line)
+void ScrollingLine(int line)
 {
-  static int xL1;
-  static int xL2;
-
-  switch(line)
-  {
-  case 0:
-    {
-      if( xL1 >= 0 ){
-        xL1--;
-        prntDBG(10,"if ");
-      } 
-      else if(xL1 < 0 && abs(xL1) < (ScrolLine1)) {
-        xL1--;
-        prntDBG(10,"else if ");
-      }
-      else {
-        xL1 = X_MAX;
-        updateLine(line, msgSet[MsgRotate[line]]);  
-        prntDBG(10,"else ");
-        if(MsgRotate[line] > (MESS_NR-2)){
-          MsgRotate[line] = 0;
-        } 
-        else {
-          MsgRotate[line]++;
-        }
-
-      }
-
-      prntDBG(10,"valore della var x: ");
-      prntDBG(10,xL1);
-      WrStrLine1(xL1,msgLine1);
-
-      break;
+  static int xL[2];
+static int  offsetMsg[2];
+  //static int xL2;
+  prntDBG(7,"xL: ");
+  prntDBG(7,line);
+  //se la stringa (che parte da destra) non ha ancora raggiunto l'estremo sinistro del display
+  if( xL[line] >= 0 ){
+    prntDBG(8,xL[line]);
+    xL[line]--;
+    prntDBG(10,"if ");
+  } 
+  //se la stringa ha raggiunto l'estremo sinistro del display,
+  //quindi parte da un punto di "disegno" virtualmente negativo
+  //  else if(xL[line] < 0 && abs(xL[line]) < (ScrolLine[line])) {
+  else if(xL[line] < 0 && abs(xL[line]) < 6) {
+    prntDBG(8,xL[line]);
+    xL[line]--;
+    prntDBG(10,"else if ");
+  }
+  //se sorpassa un certo limite negativo, oltre ad eseguire le operazioni di routeine
+  //possono essere fatte operazioni particoli
+  else {
+    prntDBG(8,xL[line]);
+    xL[line] = X_MAX;
+    //for test
+    xL[line] = 0;
+    //////////////////////////////////
+    //////////////////////////////////
+    offsetMsg[line]++;
+    //////////////////////////////////
+    //////////////////////////////////
+    /*
+    updateLine(line, msgSet[MsgRotate[line]]);  
+    prntDBG(10,"else ");
+    if(MsgRotate[line] > (MESS_NR-2)){
+      MsgRotate[line] = 0;
+    } 
+    else {
+      MsgRotate[line]++;
     }
-  case 1:
-    {
 
-      if( xL2 >= 0 ){
-        xL2--;
-        prntDBG(10,"if ");
-      } 
-      else if(xL2 < 0 && abs(xL2) < (ScrolLine2)) {
-        xL2--;
-        prntDBG(10,"else if ");
-      }     
-      else {
-        xL2 = X_MAX;
-        updateLine(line, msgSet[MsgRotate[line]]);  
-        prntDBG(10,"else ");
-        if(MsgRotate[line] > (MESS_NR-2)){
-          MsgRotate[line] = 0;
-        } 
-        else {
-          MsgRotate[line]++;
-        }
-
-      }
-
-      prntDBG(10,"valore della var x: ");
-      prntDBG(10,xL2);
-      WrStrLine2(xL2,msgLine2);
-      break;  
-    }
+*/
   }
 
+  unsigned int availLen = (X_MAX+6)-xL[line];
+  prntDBG(7,availLen);
+  prntDBG(10,"valore della var x: ");
+  prntDBG(10,xL[line]);
+  //  WrStrLine1(xL[line],msgLine[line]);
+  //drawString(xL[line],line*9,msgLine[line]);
+
+  int x = xL[line];
+  for(int i=0+offsetMsg[line]; i<=(X_MAX/6)+1; i++)
+  {
+    drawChar(x, line*9, msgLine[line][i]);
+    x+=6; // Width of each glyph
+  }
 
 }
+//}
+
+//void drawString(uint8_t x, uint8_t y, char* c)
+//{
+//  for(char i=0; i< strlen(c); i++)
+//  {
+//    drawChar(x, y, c[i]);
+//    x+=6; // Width of each glyph
+//  }
+//}
+
+
+
+
+
+
+
+
 
 
 
