@@ -21,6 +21,24 @@ void messageReady() {
         break;
       }
 
+      //cycling around the messages @todo
+    case 'C':
+      {
+        prntDBG(0,"Change message line: "); 
+        int lineNr = message.readInt();
+        prntDBG(0,lineNr); 
+
+        if(MsgRotate[lineNr] > (MESS_NR-2)){
+          MsgRotate[lineNr] = 0;
+        } 
+        else {
+          MsgRotate[lineNr]++;
+        }
+        prntDBG(0,"Change to msg n: "); 
+        prntDBG(0,MsgRotate[lineNr]); 
+        break;
+      }
+
       //setta quante volte deve scadere il timer per eseguire l'aggiornamento della riga
       // F line_nr[0-1] value[int]
     case 'F':
@@ -29,16 +47,10 @@ void messageReady() {
         int lineNr = message.readInt();
         prntDBG(0,lineNr); 
 
-        if(lineNr == 1 ){
           prntDBG(0,"Change freq to: "); 
-          FreqLine[0] = message.readInt();
-          prntDBG(0,FreqLine[0]); 
-        } 
-        else if(lineNr == 2 ){
-          prntDBG(0,"Change freq to: "); 
-          FreqLine[1] = message.readInt();
-          prntDBG(0,FreqLine[1]); 
-        }
+          FreqLine[lineNr] = message.readInt();
+          prntDBG(0,FreqLine[lineNr]); 
+
 
         break;
       }
@@ -237,34 +249,39 @@ void messageReady() {
 
 void updateLineOLD(unsigned int lineNr, char *str){
   //disp.clear();
-      //situation via debug serial print out
-      prntDBG(9,"strlen(str)*6 ");
-      prntDBG(9,strlen(str)*6);
-      //put the message len (in pixel) in a varible used by scoling line function
-      ScrolLine[lineNr] = strlen(str)*6;
-      prntDBG(8,"updateLine1 ");
-      //free(msgLine1);
-      //for (unsigned int n=0; n<=strlen(str); n++){
-      //arrange the pointer for this line
-      msgLine[lineNr] = str;
+  //situation via debug serial print out
+  prntDBG(9,"strlen(str)*6 ");
+  prntDBG(9,strlen(str)*6);
+  //put the message len (in pixel) in a varible used by scoling line function
+  ScrolLine[lineNr] = strlen(str)*6;
+  prntDBG(8,"updateLine1 ");
+  //free(msgLine1);
+  //for (unsigned int n=0; n<=strlen(str); n++){
+  //arrange the pointer for this line
+  msgLine[lineNr] = str;
 
 }
 
 void updateLine(unsigned int lineNr, char *str){
   //disp.clear();
-      //situation via debug serial print out
-      prntDBG(9,"strlen(str)*6 ");
-      prntDBG(9,strlen(str)*6);
-      //put the message len (in pixel) in a varible used by scoling line function
-      ScrolLine[lineNr] = strlen(str)*6;
-      prntDBG(8,"updateLine1 ");
-      free(msgLine[lineNr]);
-      msgLine[lineNr]= strdup(" ");
-      //for (unsigned int n=0; n<=strlen(str); n++){
-      //arrange the pointer for this line
-      msgLine[lineNr] = strcat(msgLine[lineNr],str);
+  //situation via debug serial print out
+  prntDBG(9,"strlen(str)*6 ");
+  prntDBG(9,strlen(str)*6);
+  //put the message len (in pixel) in a varible used by scoling line function
+  ScrolLine[lineNr] = strlen(str)*6;
+  prntDBG(8,"updateLine1 ");
+  //free(msgLine[lineNr]);
+  
+  //adding white space at the begin of msg
+  //msgLine[lineNr]= strdup("   ");
+  //for (unsigned int n=0; n<=strlen(str); n++){
+  //arrange the pointer for this line
+  msgLine[lineNr] = str;
+//    msgLine[lineNr] = strcat(msgLine[lineNr],str);
 
 }
+
+
 
 
 

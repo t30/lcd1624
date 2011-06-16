@@ -1,5 +1,5 @@
 /*!  Definition of debug level */
-#define DEBUG  7
+#define DEBUG  5
 
 /*!  Write out a debug string over serial port */
 void prntDBG(int levelDBG, char* c){

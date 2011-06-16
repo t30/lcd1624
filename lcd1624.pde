@@ -18,11 +18,12 @@
 // Data wire is plugged into port 2 on the Arduino
 #define ONE_WIRE_BUS 9
 
-//char *msgLine1;
-//char *msgLine2;
+/*!  @name  Set di messaggi in memoria
+ //  Settaggio parametri di parcheggio per le stringhe
+ //  rotanti a display  */
+//@{
 char *msgLine[2] = { 
-  strdup("Boot"),strdup(" up ")};
-//char msg;
+  "    Boot","      up"};
 
 //msgLine[0]= msgSet[0];
 //msgLine[1]= msgSet[1];
@@ -30,24 +31,32 @@ char *msgLine[2] = {
 #define MESS_LEN 40 //lunghezza massima dei messaggi
 #define MESS_NR  4  //nr massimo di messaggi
 char msgSet[MESS_NR][MESS_LEN] = {
-  "uno", "2", "3", "4"};
-//char *msgLine1;
-//variabili legate ai messaggi:
-//    - var[0]  ->  riga superiore
-//    - var[1]  ->  riga inferiore
-//ogni quanti cicli del timer esegue lo scrolling
-//la frequenza dipende dalla var::period
+  "Scrolling_board",
+  "Matteo_lampugnani",
+  "Test_scrolling_string",
+  "Diplay_dot_M_16x24_max_4_module"};
+//@}
+
+/*!  @name  Scrolling Variables
+ Serie di Array contenenti i parametri utilizzati per la rotazione a display
+ dei testi presenti in var::msgSet  \n
+ //  Variabili legate ai messaggi:
+ //    - var[0]  ->  riga superiore
+ //    - var[1]  ->  riga inferiore  */
+//@{
+//!ogni quanti cicli del timer esegue lo scrolling la frequenza dipende dalla var::period
 unsigned int FreqLine[2] = {
   1,2};
-//contatore del numero di cicli eseguiti dal timer
+//!contatore del numero di cicli eseguiti dal timer
 unsigned int FreqCount[2] = {
   0,0};
-//lunghezza dei messaggi in scroling ora (in pixel - caratteri*6 (5+spazio))
+//!lunghezza dei messaggi in scroling ora (in pixel - caratteri*6 (5+spazio))
 unsigned int ScrolLine[2] = {
   0,0};
-//array in cui viene salvato il nemero del prossimo messaggio in solling
+//!array in cui viene salvato il nemero del prossimo messaggio in solling
 unsigned int MsgRotate[2] = {
   0,0};
+//@}
 
 // Macro to make it the initDisplay function a little easier to understand
 #define setMaster(dispNum, CSPin) initDisplay(dispNum,CSPin,true)
@@ -77,13 +86,22 @@ DallasTemperature sensors(&oneWire);
 
 #include "NetSensor.h"
 
-//Setting up execution frequency f[kHz]= 1/period[msec]
+/*!  @name  Task timing function definition
+ //  Creazione degli oggetti timer utilizzati per le chiamate ai task  */
+//@{
+//!Setting up execution frequency f[kHz]= 1/period[msec]
 unsigned int period = 50;
+//!  Task Veloce
+/*!  Utilizzato per mantenere aggiornate le varibili interne del sistema.  */
 Metro Period = Metro(period); 
 
-//Setting up execution frequency f[kHz]= 1/period[msec]
+//!Setting up execution frequency f[kHz]= 1/period[msec]
 unsigned int periodUpdate = 30000;
+//!Task Lento
+/*!  Utilizzato per mantenere aggiornato lo stato dei sensori e componenti lenti
+ //  in risposta o nella variazione del loro segnale.  */
 Metro Update = Metro(periodUpdate); 
+//@}
 
 #include "Communication.h"
 #include "DrawFunc.h"
@@ -182,6 +200,7 @@ void loop() {
 
 
 }
+
 
 
 

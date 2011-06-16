@@ -80,7 +80,7 @@ void WrStrLine2(uint8_t x, char* c) {
 void ScrollingLine(int line)
 {
   static int xL[2];
-static int  offsetMsg[2];
+  static int  offsetMsg[2];
   //static int xL2;
   prntDBG(7,"xL: ");
   prntDBG(7,line);
@@ -92,7 +92,7 @@ static int  offsetMsg[2];
   } 
   //se la stringa ha raggiunto l'estremo sinistro del display,
   //quindi parte da un punto di "disegno" virtualmente negativo
-  //  else if(xL[line] < 0 && abs(xL[line]) < (ScrolLine[line])) {
+
   else if(xL[line] < 0 && abs(xL[line]) < 6) {
     prntDBG(8,xL[line]);
     xL[line]--;
@@ -102,7 +102,7 @@ static int  offsetMsg[2];
   //possono essere fatte operazioni particoli
   else {
     prntDBG(8,xL[line]);
-    xL[line] = X_MAX;
+    //xL[line] = X_MAX;
     //for test
     xL[line] = 0;
     //////////////////////////////////
@@ -112,15 +112,16 @@ static int  offsetMsg[2];
     //////////////////////////////////
     /*
     updateLine(line, msgSet[MsgRotate[line]]);  
+     prntDBG(10,"else ");
+     if(MsgRotate[line] > (MESS_NR-2)){
+     MsgRotate[line] = 0;
+     } 
+     else {
+     MsgRotate[line]++;
+     }
+     
+     */
     prntDBG(10,"else ");
-    if(MsgRotate[line] > (MESS_NR-2)){
-      MsgRotate[line] = 0;
-    } 
-    else {
-      MsgRotate[line]++;
-    }
-
-*/
   }
 
   unsigned int availLen = (X_MAX+6)-xL[line];
@@ -130,12 +131,29 @@ static int  offsetMsg[2];
   //  WrStrLine1(xL[line],msgLine[line]);
   //drawString(xL[line],line*9,msgLine[line]);
 
+  //scrittura fisica sul display
   int x = xL[line];
-  for(int i=0+offsetMsg[line]; i<=(X_MAX/6)+1; i++)
+  for(int i=0+offsetMsg[line]; i<=(X_MAX/6)+1+offsetMsg[line]; i++)
+    //    for(int i=0+offsetMsg[line]; i<=(X_MAX/6); i++)
   {
     drawChar(x, line*9, msgLine[line][i]);
     x+=6; // Width of each glyph
   }
+
+  //controlli per rotazione messaggi e fine scroling
+  if(offsetMsg[line]>= strlen(msgLine[line])){
+    if(MsgRotate[line] > (MESS_NR-2)){
+      MsgRotate[line] = 0;
+    } 
+    else {
+      MsgRotate[line]++;
+    }
+    updateLine(line, msgSet[MsgRotate[line]]);  
+    offsetMsg[line] = 0;
+  }
+  //  if(offsetMsg[line] >= ScrolLine[line]+3 ){
+  //    offsetMsg[line] = 0;
+  //  }
 
 }
 //}
@@ -148,6 +166,13 @@ static int  offsetMsg[2];
 //    x+=6; // Width of each glyph
 //  }
 //}
+
+
+
+
+
+
+
 
 
 
