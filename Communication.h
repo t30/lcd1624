@@ -47,9 +47,9 @@ void messageReady() {
         int lineNr = message.readInt();
         prntDBG(0,lineNr); 
 
-          prntDBG(0,"Change freq to: "); 
-          FreqLine[lineNr] = message.readInt();
-          prntDBG(0,FreqLine[lineNr]); 
+        prntDBG(0,"Change freq to: "); 
+        FreqLine[lineNr] = message.readInt();
+        prntDBG(0,FreqLine[lineNr]); 
 
 
         break;
@@ -271,15 +271,16 @@ void updateLine(unsigned int lineNr, char *str){
   ScrolLine[lineNr] = strlen(str)*6;
   prntDBG(8,"updateLine1 ");
   //free(msgLine[lineNr]);
-  
+
   //adding white space at the begin of msg
   //msgLine[lineNr]= strdup("   ");
   //for (unsigned int n=0; n<=strlen(str); n++){
   //arrange the pointer for this line
   msgLine[lineNr] = str;
-//    msgLine[lineNr] = strcat(msgLine[lineNr],str);
+  //    msgLine[lineNr] = strcat(msgLine[lineNr],str);
 
 }
+
 
 
 
