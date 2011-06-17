@@ -134,7 +134,7 @@ void setup() {
   //    disp.setSlave(2,17);
   //    disp.setSlave(3,14);
 
-  drawString(0,0,"Testing");
+ // drawString(0,0,"Testing");
   // Start up the library for sensor temperature
   sensors.begin();
 

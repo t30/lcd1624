@@ -39,6 +39,15 @@ void messageReady() {
         break;
       }
 
+      //set brightness of display - now only 0 - add a for cycle to extend to all display @todo
+    case 'D':
+      {
+        prntDBG(0,"Set Debug: ");
+        debugL = message.readInt();
+        prntDBG(0,debugL);
+        break;
+      }
+
       //setta quante volte deve scadere il timer per eseguire l'aggiornamento della riga
       // F line_nr[0-1] value[int]
     case 'F':
@@ -280,6 +289,7 @@ void updateLine(unsigned int lineNr, char *str){
   //    msgLine[lineNr] = strcat(msgLine[lineNr],str);
 
 }
+
 
 
 

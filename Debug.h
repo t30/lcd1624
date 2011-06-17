@@ -1,10 +1,10 @@
 /*!  Definition of debug level */
 #define DEBUG  5
-
+unsigned int debugL = DEBUG;
 /*!  Write out a debug string over serial port */
 void prntDBG(int levelDBG, char* c){
 
-  if(levelDBG <= DEBUG){    
+  if(levelDBG <= debugL){    
     Serial.print(millis());
     Serial.print(" - "); 
 
@@ -22,7 +22,7 @@ void prntDBG(int levelDBG, char* c){
 /*!  Write out a debug string over serial port */
 void prntDBG(int levelDBG, int c){
 
-  if(levelDBG <= DEBUG){    
+  if(levelDBG <= debugL){    
     Serial.print(millis());
     Serial.print(" - ");
 

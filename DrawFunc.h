@@ -84,21 +84,23 @@ void ScrollingLine(int line)
   //static int xL2;
   prntDBG(7,"xL: ");
   prntDBG(7,line);
-  //se la stringa (che parte da destra) non ha ancora raggiunto l'estremo sinistro del display
+
+  //!se la stringa (che parte da destra) non ha ancora raggiunto l'estremo sinistro del display
   if( xL[line] >= 0 ){
     prntDBG(8,xL[line]);
     xL[line]--;
     prntDBG(10,"if ");
   } 
-  //se la stringa ha raggiunto l'estremo sinistro del display,
-  //quindi parte da un punto di "disegno" virtualmente negativo
 
+  //!se la stringa ha raggiunto l'estremo sinistro del display,
+  //quindi parte da un punto di "disegno" virtualmente negativo
   else if(xL[line] < 0 && abs(xL[line]) < 6) {
     prntDBG(8,xL[line]);
     xL[line]--;
     prntDBG(10,"else if ");
   }
-  //se sorpassa un certo limite negativo, oltre ad eseguire le operazioni di routeine
+
+  //!se sorpassa un certo limite negativo, oltre ad eseguire le operazioni di routeine
   //possono essere fatte operazioni particoli
   else {
     prntDBG(8,xL[line]);
@@ -110,17 +112,7 @@ void ScrollingLine(int line)
     offsetMsg[line]++;
     //////////////////////////////////
     //////////////////////////////////
-    /*
-    updateLine(line, msgSet[MsgRotate[line]]);  
-     prntDBG(10,"else ");
-     if(MsgRotate[line] > (MESS_NR-2)){
-     MsgRotate[line] = 0;
-     } 
-     else {
-     MsgRotate[line]++;
-     }
-     
-     */
+
     prntDBG(10,"else ");
   }
 
@@ -131,16 +123,16 @@ void ScrollingLine(int line)
   //  WrStrLine1(xL[line],msgLine[line]);
   //drawString(xL[line],line*9,msgLine[line]);
 
-  //scrittura fisica sul display
+  //!scrittura fisica sul display
   int x = xL[line];
-  for(int i=0+offsetMsg[line]; i<=(X_MAX/6)+1+offsetMsg[line]; i++)
+  for(int i=0+offsetMsg[line]; i<=( (X_MAX-xL[line] )/6)+1+offsetMsg[line]; i++)
     //    for(int i=0+offsetMsg[line]; i<=(X_MAX/6); i++)
   {
     drawChar(x, line*9, msgLine[line][i]);
     x+=6; // Width of each glyph
   }
 
-  //controlli per rotazione messaggi e fine scroling
+  //!controlli per rotazione messaggi e fine scroling
   if(offsetMsg[line]>= strlen(msgLine[line])){
     if(MsgRotate[line] > (MESS_NR-2)){
       MsgRotate[line] = 0;
@@ -150,22 +142,14 @@ void ScrollingLine(int line)
     }
     updateLine(line, msgSet[MsgRotate[line]]);  
     offsetMsg[line] = 0;
+    xL[line] = X_MAX;
   }
-  //  if(offsetMsg[line] >= ScrolLine[line]+3 ){
-  //    offsetMsg[line] = 0;
-  //  }
 
 }
 //}
 
-//void drawString(uint8_t x, uint8_t y, char* c)
-//{
-//  for(char i=0; i< strlen(c); i++)
-//  {
-//    drawChar(x, y, c[i]);
-//    x+=6; // Width of each glyph
-//  }
-//}
+
+
 
 
 
