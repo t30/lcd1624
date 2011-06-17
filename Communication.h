@@ -72,59 +72,10 @@ void messageReady() {
         prntDBG(7,"lunghezza stringa: ");
         prntDBG(7,message.lenString());
         //free(tmpMsg);
-        tmpMsg = msgSet[lineNr];
+        //tmpMsg = msgSet[lineNr];
         //tmpMsg = message.readStr();
         strcpy( tmpMsg, message.readStr());
         prntDBG(5,msgSet[lineNr]);
-        //        switch(lineNr){
-        //        case 0:
-        //          {
-        //            //  if(lineNr == 1 )
-        //            //  Serial.println("messaggio");
-        //            prntDBG(7,"lunghezza stringa: ");
-        //            prntDBG(7,message.lenString());
-        //            //        Serial.print("contenuto: ");
-        //            //        Serial.println(message.readStr());
-        //            //msgSet[0]=message.readStr();
-        //            free(msgLine1);
-        //            //  msg = strdup("  ");
-        //            //        msg = strdup("              ");
-        //            //        msg = strcat(msg, message.readStr());
-        //            //        msg = "               ";
-        //            //          msgLine1 = strcat(msgLine1, message.readStr());
-        //            strcpy( msgLine1, message.readStr());
-        //            ScrolLine1 = strlen(msgLine1)*6;
-        //            prntDBG(5,msgSet[0]);
-        //            break;
-        //          } 
-        //        case 1:
-        //          {
-        //            //else if(lineNr == 2 ) 
-        //            //Serial.println("messaggio");
-        //            prntDBG(7,"lunghezza stringa: ");
-        //            prntDBG(7,message.lenString());
-        //            //        Serial.print("contenuto: ");
-        //            //        Serial.println(message.readStr());
-        //            free(msgLine2);
-        //            //msg = strdup("  ");
-        //            //        msg = strdup("              ");
-        //            //        msg = strcat(msg, message.readStr());
-        //            //        msg = "               ";
-        //            //          msgLine2 = strcat(msgLine2, message.readStr());
-        //            strcpy( msgLine2, message.readStr());
-        //            ScrolLine2 = strlen(msgLine2)*6;
-        //            //strcpy( msgSet[0], message.readStr());
-        //
-        //            prntDBG(5,msgLine2);
-        //            break;
-        //          }
-        //        default:
-        //          {
-        //            //do something 
-        //            prntDBG(5,"UnknownPar");
-        //            break;
-        //          }
-        //        }
         break;
       }
 
@@ -277,8 +228,8 @@ void updateLine(unsigned int lineNr, char *str){
   prntDBG(9,"strlen(str)*6 ");
   prntDBG(9,strlen(str)*6);
   //put the message len (in pixel) in a varible used by scoling line function
-  ScrolLine[lineNr] = strlen(str)*6;
-  prntDBG(8,"updateLine1 ");
+  ScrolLine[lineNr] = strlen(str)*6+24;
+  prntDBG(5,"updateLine ");
   //free(msgLine[lineNr]);
 
   //adding white space at the begin of msg
@@ -286,16 +237,10 @@ void updateLine(unsigned int lineNr, char *str){
   //for (unsigned int n=0; n<=strlen(str); n++){
   //arrange the pointer for this line
   msgLine[lineNr] = str;
-  //    msgLine[lineNr] = strcat(msgLine[lineNr],str);
+  //disp.clear();
+  //msgLine[lineNr] = strcat(msgLine[lineNr],str);
 
 }
-
-
-
-
-
-
-
 
 
 

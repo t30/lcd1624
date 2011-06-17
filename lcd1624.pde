@@ -19,70 +19,83 @@
 #define ONE_WIRE_BUS 9
 
 /*!  @name  Set di messaggi in memoria
- //  Settaggio parametri di parcheggio per le stringhe
- //  rotanti a display  */
+ //  Settaggio parametri di parcheggio per le stringhe rotanti a display  */
 //@{
+//! Puntatore ai messaggi da scorrere
 char *msgLine[2] = { 
-  "    Boot","      up"};
+  "    Boot","   up"};
+#define MESS_LEN 40 //!<  lunghezza massima dei messaggi
+#define MESS_NR  4  //!<  nr massimo di messaggi
 
-//msgLine[0]= msgSet[0];
-//msgLine[1]= msgSet[1];
-
-#define MESS_LEN 40 //lunghezza massima dei messaggi
-#define MESS_NR  4  //nr massimo di messaggi
+//!  Array di messaggi disponibili a display.
+/*!  @param  def::MESS_NR    Numero di messaggi
+//   @param  def::MESS_LEN   lunghezza massima del messaggio */
 char msgSet[MESS_NR][MESS_LEN] = {
   "Scrolling_board",
   "Matteo_lampugnani",
   "Test_scrolling_string",
-  "Diplay_dot_M_16x24_max_4_module"};
+  "Display_dot_M_16x24_max_4_module"};
 //@}
 
 /*!  @name  Scrolling Variables
  Serie di Array contenenti i parametri utilizzati per la rotazione a display
  dei testi presenti in var::msgSet  \n
- //  Variabili legate ai messaggi:
- //    - var[0]  ->  riga superiore
- //    - var[1]  ->  riga inferiore  */
+ //    @param var[0]  ->  riga superiore
+ //    @param var[1]  ->  riga inferiore  */
 //@{
-//!ogni quanti cicli del timer esegue lo scrolling la frequenza dipende dalla var::period
+//!  Ogni quanti cicli del timer esegue lo scrolling
+/*!  La frequenza del timer dipende dalla var::period  */
 unsigned int FreqLine[2] = {
   1,2};
-//!contatore del numero di cicli eseguiti dal timer
+//!  Contatore del numero di cicli eseguiti dal timer
 unsigned int FreqCount[2] = {
   0,0};
-//!lunghezza dei messaggi in scroling ora (in pixel - caratteri*6 (5+spazio))
+//!  Lunghezza dei messaggi in scroling ora (in pixel - caratteri*6 (5+spazio))
 unsigned int ScrolLine[2] = {
   0,0};
-//!array in cui viene salvato il nemero del prossimo messaggio in solling
+//!  Array in cui viene salvato il nemero del prossimo messaggio in solling
 unsigned int MsgRotate[2] = {
   0,0};
 //@}
 
-// Macro to make it the initDisplay function a little easier to understand
+/*!  @name  Macro LCD define
+ Macro to make it the initDisplay function a little easier to understand */
+//@{
 #define setMaster(dispNum, CSPin) initDisplay(dispNum,CSPin,true)
 #define setSlave(dispNum, CSPin) initDisplay(dispNum,CSPin,false)
+//@}
 
 // 4 = Number of displays
 // Data = 10
 // WR == 11
 // True. Do you want a shadow buffer? (A scratch pad)
 
-// Init MatrixDisplay
+/*!  @name  Diplay variables declaration
+ Declaration and variables by modular display
+ */
+//@{
+//!  Init MatrixDisplay
 MatrixDisplay disp(1,7,8, true);
-// Pass a copy of the display into the toolbox
+//!  Pass a copy of the display into the toolbox
 DisplayToolbox toolbox(&disp);
+
+uint8_t X_MAX = 0;//!< Prepare boundaries MAtrixDisplay
+uint8_t Y_MAX = 0;//!< Prepare boundaries MAtrixDisplay
+//@}
 
 Messenger message = Messenger(); 
 
-// Prepare boundaries MAtrixDisplay
-uint8_t X_MAX = 0;
-uint8_t Y_MAX = 0;
-
-// Setup a oneWire instance to communicate with any OneWire devices (not just Maxim/Dallas temperature ICs)
+/*!  @name  Digital Temperature Sensor (DS18B20)
+ Declaration of bus sensor object
+ */
+//@{
+//! Setup a oneWire instance to communicate with any OneWire devices.
+/*!  (not just Maxim/Dallas temperature ICs)  
+  @param  def::ONE_WIRE_BUS  Pin connection for OneWire bus.*/
 OneWire oneWire(ONE_WIRE_BUS);
-
-// Pass our oneWire reference to Dallas Temperature. 
+//! Pass our oneWire reference to Dallas Temperature. 
 DallasTemperature sensors(&oneWire);
+//@}
 
 #include "NetSensor.h"
 
@@ -94,7 +107,6 @@ unsigned int period = 50;
 //!  Task Veloce
 /*!  Utilizzato per mantenere aggiornate le varibili interne del sistema.  */
 Metro Period = Metro(period); 
-
 //!Setting up execution frequency f[kHz]= 1/period[msec]
 unsigned int periodUpdate = 30000;
 //!Task Lento
@@ -112,11 +124,6 @@ void setup() {
   Serial.begin(115200);
   prntDBG(0,"Booting up...");
 
-  // free(msgLine1);
-  // msgLine1 = msgSet[0];
-  // updateLine(0, msgSet[0]);
-  //  updateLine(0, msgSet[0]);  
-  //  updateLine(1, msgSet[1]);
   prntDBG(9,"==Print msgSet: ");
   prntDBG(9,msgSet[0]);
   prntDBG(9,msgSet[1]);
@@ -134,7 +141,7 @@ void setup() {
   //    disp.setSlave(2,17);
   //    disp.setSlave(3,14);
 
- // drawString(0,0,"Testing");
+  // drawString(0,0,"Testing");
   // Start up the library for sensor temperature
   sensors.begin();
 
@@ -200,12 +207,5 @@ void loop() {
 
 
 }
-
-
-
-
-
-
-
 
 

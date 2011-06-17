@@ -125,13 +125,17 @@ void ScrollingLine(int line)
 
   //!scrittura fisica sul display
   int x = xL[line];
-  for(int i=0+offsetMsg[line]; i<=( (X_MAX-xL[line] )/6)+1+offsetMsg[line]; i++)
-    //    for(int i=0+offsetMsg[line]; i<=(X_MAX/6); i++)
+//  for(int i=0+offsetMsg[line]; i<=( (X_MAX-xL[line] )/6)+1+offsetMsg[line]; i++)
+  for(int i=0+offsetMsg[line]; i<=( (X_MAX-xL[line] )/6)+offsetMsg[line]; i++)
   {
+    if(msgLine[line][i] == '\0'){
+     break; 
+    }
     drawChar(x, line*9, msgLine[line][i]);
+    prntDBG(10,msgLine[line][i]);
     x+=6; // Width of each glyph
   }
-
+prntDBG(10,"============");
   //!controlli per rotazione messaggi e fine scroling
   if(offsetMsg[line]>= strlen(msgLine[line])){
     if(MsgRotate[line] > (MESS_NR-2)){
@@ -147,6 +151,7 @@ void ScrollingLine(int line)
 
 }
 //}
+
 
 
 
