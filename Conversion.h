@@ -1,4 +1,10 @@
-/*!  thanks to C0t0d0s0 for this function */
+/*! @file Conversion.h
+  @author Ing. M.Lampugnani
+  @par Company:
+    MyCompany
+  @version 0.0.2-scrolling branch
+  @date 10th march 2011 
+  @note thanks to C0t0d0s0 for this function */
 byte inttostr(int n, char* s){
   int order=10;
   if(n<order){

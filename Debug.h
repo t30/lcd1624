@@ -1,4 +1,10 @@
-/*!  Definition of debug level */
+/*! @file Debug.h
+  @author Ing. M.Lampugnani
+  @par Company:
+    MyCompany
+  @version 0.0.2-scrolling branch
+  @date 10th march 2011 */
+  /*!  Definition of debug level */
 #define DEBUG  5
 unsigned int debugL = DEBUG;
 /*!  Write out a debug string over serial port */

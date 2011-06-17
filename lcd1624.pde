@@ -1,21 +1,27 @@
-//Scroling branch
+/*! @file lcd1624.pde
+  @author Ing. M.Lampugnani
+  @par Company:
+    MyCompany
+  @version 0.0.2-scrolling branch
+  @date 10th march 2011 */
 #include <Messenger.h>
 #include <Metro.h>
 //#include <stdio.h>
-#include "MatrixDisplay.h"
-#include "DisplayToolbox.h"
-#include "font.h"
+#include <MatrixDisplay.h>
+#include <DisplayToolbox.h>
+#include <font.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
 //#include <avr/pgmspace.h>
-#include <string.h>
-#include "Conversion.h"
 #include "Debug.h"
+#include "Conversion.h"
+#include <string.h>
+//!
 
-//define for comunication type
+//!  Define for comunication type
 #define SERIAL_PORT
 
-// Data wire is plugged into port 2 on the Arduino
+//!  Data wire is plugged into port 2 on the Arduino
 #define ONE_WIRE_BUS 9
 
 /*!  @name  Set di messaggi in memoria

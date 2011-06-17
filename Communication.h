@@ -1,10 +1,10 @@
-////da mettere in DrawFunc.h
-//void setBrightDisp(uint8_t pwmVal){
-//  for(uint8_t i=0; i<disp.getDisplayCount(); i++){
-//    toolbox.setBrightness(i, pwmVal);
-//  }
-//}
-#ifdef SERIAL_PORT
+/*! @file Communication.h
+  @author Ing. M.Lampugnani
+  @par Company:
+    MyCompany
+  @version 0.0.2-scrolling branch
+  @date 10th march 2011 */
+  #ifdef SERIAL_PORT
 void messageReady() {
   // Loop through all the available elements of the message
   while ( message.available() ) {
@@ -164,63 +164,6 @@ void messageReady() {
 }
 
 #endif
-
-//void updateMsg(char *str, unsigned int msgNr){
-//  for(int i=0;i<=strlen(str);i++){
-//
-//    msgSet[msgNr][i]=str[i];
-//  }
-//}
-//void updateMsg(boolean lineNumb){
-//
-//  // request temperature data 
-//  requestTemp();
-//  disp.clear();
-//  prntDBG(5,"UpdateMsg Line: ");
-//  prntDBG(5,lineNumb);
-//  prntDBG(9, "Temperature for the device 1 (index 0) is: ");
-//  float tempC = readTemp(0);
-//  prntDBG(9, tempC);
-//
-//  if(lineNumb == 0){
-//    free(msgLine1);
-//    msgLine1 = strdup("    ");
-//
-//    inttostr((int)tempC, msgLine1);
-//    //msg= "teo";
-//
-//    prntDBG(8,"Valore temperatura convertito: ");
-//    prntDBG(8, msgLine1); 
-//  } 
-//
-//  else if(lineNumb == 1){
-//
-//    free(msgLine2);
-//    msgLine2 = strdup("  ");
-//
-//    inttostr((int)tempC, msgLine2);
-//    //msg= "teo";
-//
-//    prntDBG(8,"Valore temperatura convertito: ");
-//    prntDBG(8, msgLine2); 
-//    //ScrolLine2 = strlen(msgLine2)*6;
-//  }
-//}
-
-void updateLineOLD(unsigned int lineNr, char *str){
-  //disp.clear();
-  //situation via debug serial print out
-  prntDBG(9,"strlen(str)*6 ");
-  prntDBG(9,strlen(str)*6);
-  //put the message len (in pixel) in a varible used by scoling line function
-  ScrolLine[lineNr] = strlen(str)*6;
-  prntDBG(8,"updateLine1 ");
-  //free(msgLine1);
-  //for (unsigned int n=0; n<=strlen(str); n++){
-  //arrange the pointer for this line
-  msgLine[lineNr] = str;
-
-}
 
 void updateLine(unsigned int lineNr, char *str){
   //disp.clear();

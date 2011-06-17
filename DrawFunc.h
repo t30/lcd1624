@@ -1,4 +1,10 @@
-/*
+/*! @file DrawFunc.h
+  @author Ing. M.Lampugnani
+  @par Company:
+    MyCompany
+  @version 0.0.2-scrolling branch
+  @date 10th march 2011 */
+  /*
  * Copy a character glyph from the myfont data structure to
  * display memory, with its upper left at the given coordinate
  * This is unoptimized and simply uses setPixel() to draw each dot.
