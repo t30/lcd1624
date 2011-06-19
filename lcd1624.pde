@@ -30,7 +30,7 @@
 //! Puntatore ai messaggi da scorrere
 char *msgLine[2] = { 
   "    Boot","   up"};
-#define MESS_LEN 40 //!<  lunghezza massima dei messaggi
+#define MESS_LEN 60 //!<  lunghezza massima dei messaggi
 #define MESS_NR  4  //!<  nr massimo di messaggi
 
 //!  Array di messaggi disponibili a display.
@@ -56,7 +56,7 @@ unsigned int FreqLine[2] = {
 //!  Contatore del numero di cicli eseguiti dal timer
 unsigned int FreqCount[2] = {
   0,0};
-//!  Lunghezza dei messaggi in scroling ora (in pixel - caratteri*6 (5+spazio))
+//!  Lunghezza dei messaggi in scroling ora (in pixel = caratteri*6 (5+spazio))
 unsigned int ScrolLine[2] = {
   0,0};
 //!  Array in cui viene salvato il nemero del prossimo messaggio in solling
@@ -97,7 +97,7 @@ Messenger message = Messenger();
 //@{
 //! Setup a oneWire instance to communicate with any OneWire devices.
 /*!  (not just Maxim/Dallas temperature ICs)  
-  @param  def::ONE_WIRE_BUS  Pin connection for OneWire bus.*/
+  -  def::ONE_WIRE_BUS  Pin connection for OneWire bus.*/
 OneWire oneWire(ONE_WIRE_BUS);
 //! Pass our oneWire reference to Dallas Temperature. 
 DallasTemperature sensors(&oneWire);
@@ -110,14 +110,14 @@ DallasTemperature sensors(&oneWire);
 //@{
 //!Setting up execution frequency f[kHz]= 1/period[msec]
 unsigned int period = 50;
-//!  Task Veloce
+//!  Task Veloce.
 /*!  Utilizzato per mantenere aggiornate le varibili interne del sistema.  */
-Metro Period = Metro(period); 
+Metro Period = Metro(period);
 //!Setting up execution frequency f[kHz]= 1/period[msec]
 unsigned int periodUpdate = 30000;
-//!Task Lento
+//!  Task Lento.
 /*!  Utilizzato per mantenere aggiornato lo stato dei sensori e componenti lenti
- //  in risposta o nella variazione del loro segnale.  */
+//   in risposta o nella variazione del loro segnale.  */
 Metro Update = Metro(periodUpdate); 
 //@}
 
@@ -130,12 +130,12 @@ void setup() {
   Serial.begin(115200);
   prntDBG(0,"Booting up...");
 
-  prntDBG(9,"==Print msgSet: ");
-  prntDBG(9,msgSet[0]);
-  prntDBG(9,msgSet[1]);
-  prntDBG(9,"==Print msgLine 1 e 2: ");
-  prntDBG(9,msgLine[0]);
-  prntDBG(9,msgLine[1]);
+  prntDBG(5,"==Print msgSet: ");
+  prntDBG(5,msgSet[0]);
+  prntDBG(5,msgSet[1]);
+  prntDBG(5,"==Print msgLine 1 e 2: ");
+  prntDBG(5,msgLine[0]);
+  prntDBG(5,msgLine[1]);
 
   // Fetch bounds (dynamically work out how large this display is) MatrixDisplay
   X_MAX = disp.getDisplayCount() * disp.getDisplayWidth();
@@ -205,6 +205,7 @@ void loop() {
   if (Update.check() == 1)
   {
     Update.reset();
+    //requestTemp();
     //    updateLine(0, msgSet[MsgRotate[0]]);  
     //    updateLine(1, msgSet[MsgRotate[1]]);
     //    updateMsg(0);

@@ -1,10 +1,10 @@
 /*! @file DrawFunc.h
-  @author Ing. M.Lampugnani
-  @par Company:
-    MyCompany
-  @version 0.0.2-scrolling branch
-  @date 10th march 2011 */
-  /*
+ @author Ing. M.Lampugnani
+ @par Company:
+ MyCompany
+ @version 0.0.2-scrolling branch
+ @date 10th march 2011 */
+/*
  * Copy a character glyph from the myfont data structure to
  * display memory, with its upper left at the given coordinate
  * This is unoptimized and simply uses setPixel() to draw each dot.
@@ -57,31 +57,6 @@ void WrStrLine2(uint8_t x, char* c) {
   drawString(x, 9, c);
 }
 
-//// Text bouncing around
-//void demoText()
-//{
-//  prntDBG(7,"Numero di char del messaggio: ");
-//  prntDBG(7,sizeof(msg));
-//
-//  prntDBG(9,"for Cycle executed for: ");
-//  prntDBG(9,((sizeof(msg)*6) + X_MAX));
-//  int x=X_MAX;
-//  //  boolean textDir = false;
-//  //boolean textRight = false;
-//
-//  for (int i=0; i < ((sizeof(msg)*6) + X_MAX); i++) 
-//  {
-//    x--;
-//    //drawString(x,y,msg);
-//    WrStrLine1(x,msg);
-//    //   drawString(x,y,ftoa(sensors.getTempCByIndex(0)), 5, temp);
-//    disp.syncDisplays(); 
-//
-//    delay(100);
-//    disp.clear(); 
-//  } 
-//}
-
 /*! scoll a string on the MatrixDisplay on a specify line  */
 void ScrollingLine(int line)
 {
@@ -100,48 +75,42 @@ void ScrollingLine(int line)
 
   //!se la stringa ha raggiunto l'estremo sinistro del display,
   //quindi parte da un punto di "disegno" virtualmente negativo
+  //Soglia massima negativa -6
   else if(xL[line] < 0 && abs(xL[line]) < 6) {
     prntDBG(8,xL[line]);
     xL[line]--;
     prntDBG(10,"else if ");
   }
 
-  //!se sorpassa un certo limite negativo, oltre ad eseguire le operazioni di routeine
-  //possono essere fatte operazioni particoli
+  //!se sorpassa un certo limite negativo (-6), oltre ad eseguire le operazioni di routine
+  //sposto il punto di partenza della scrittura a x = 0.
   else {
     prntDBG(8,xL[line]);
-    //xL[line] = X_MAX;
-    //for test
     xL[line] = 0;
-    //////////////////////////////////
-    //////////////////////////////////
     offsetMsg[line]++;
-    //////////////////////////////////
-    //////////////////////////////////
-
     prntDBG(10,"else ");
   }
 
-  unsigned int availLen = (X_MAX+6)-xL[line];
-  prntDBG(7,availLen);
+  //unsigned int availLen = (X_MAX+6)-xL[line];
+  //prntDBG(7,availLen);
   prntDBG(10,"valore della var x: ");
   prntDBG(10,xL[line]);
-  //  WrStrLine1(xL[line],msgLine[line]);
-  //drawString(xL[line],line*9,msgLine[line]);
 
   //!scrittura fisica sul display
   int x = xL[line];
-//  for(int i=0+offsetMsg[line]; i<=( (X_MAX-xL[line] )/6)+1+offsetMsg[line]; i++)
+  //for(int i=0+offsetMsg[line]; i<=( (X_MAX-xL[line] )/6)+1+offsetMsg[line]; i++)
   for(int i=0+offsetMsg[line]; i<=( (X_MAX-xL[line] )/6)+offsetMsg[line]; i++)
   {
+    //Se il char da printare è il terminatore di stringa esci dal ciclo
     if(msgLine[line][i] == '\0'){
-     break; 
+      break; 
     }
     drawChar(x, line*9, msgLine[line][i]);
-    prntDBG(10,msgLine[line][i]);
+    //prntDBG(10,msgLine[line][i]);
     x+=6; // Width of each glyph
   }
-prntDBG(10,"============");
+  //prntDBG(10,"============");
+  
   //!controlli per rotazione messaggi e fine scroling
   if(offsetMsg[line]>= strlen(msgLine[line])){
     if(MsgRotate[line] > (MESS_NR-2)){
@@ -157,6 +126,7 @@ prntDBG(10,"============");
 
 }
 //}
+
 
 
 

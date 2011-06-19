@@ -1,4 +1,5 @@
 /*! @file Communication.h
+Managing command from communication interface.
   @author Ing. M.Lampugnani
   @par Company:
     MyCompany
